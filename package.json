@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "inquirer": "^8.0.0",
+    "inquirer-date-prompt": "^2.0.0"
+  },
+  "name": "shopee-developers-case",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "start": "clear && yarn build && node index.js"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^7.3.1"
+  }
+}
