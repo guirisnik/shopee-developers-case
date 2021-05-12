@@ -1,6 +1,9 @@
-import { prompt, QuestionCollection } from 'inquirer';
+import { prompt, registerPrompt, QuestionCollection, Answers } from 'inquirer';
+import { createSalePath, storeSale } from './createSale';
 
-const questions: QuestionCollection = [
+registerPrompt('date', require('inquirer-date-prompt'));
+
+const mainMenuPath: QuestionCollection = [
   {
     name: 'start',
     message: 'What do you want to do?',
@@ -15,7 +18,25 @@ const questions: QuestionCollection = [
   },
 ];
 
-const main = (questions: QuestionCollection) =>
-  prompt(questions).then(console.log).catch(console.error);
+const successHandler = (answers: Answers) => {
+  switch (answers.start) {
+    case 'create': {
+      prompt(createSalePath)
+        .then(storeSale)
+        .then(returnToMainMenu)
+        .catch(console.error);
+      break;
+    }
+    default:
+      break;
+  }
+};
 
-main(questions);
+function returnToMainMenu(): void {
+  main(mainMenuPath);
+}
+
+const main = (questions: QuestionCollection) =>
+  prompt(questions).then(successHandler).catch(console.error);
+
+main(mainMenuPath);

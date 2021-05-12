@@ -9,7 +9,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "start": "clear && yarn build && node index.js"
+    "start": "clear && yarn build && node build/index.js"
   },
   "devDependencies": {
     "@types/inquirer": "^7.3.1"
