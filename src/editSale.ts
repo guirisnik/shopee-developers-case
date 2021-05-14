@@ -4,7 +4,7 @@ import { Sale } from './dto/Sale.dto';
 import { loadSales, replace } from './store';
 import { toSale, toChoice } from './utils';
 
-export const buildEditSalePath = (
+export const buildUpdateSalePath = (
   salesList: Array<Sale>
 ): QuestionCollection => [
   {

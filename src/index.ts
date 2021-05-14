@@ -1,7 +1,8 @@
 import { prompt, registerPrompt, QuestionCollection, Answers } from 'inquirer';
 import { buildCreateSalePath, storeSale } from './createSale';
 import { buildDeleteSalePath, removeSale } from './deletePath';
-import { buildEditSalePath, promptEditSelectedSale } from './editSale';
+import { buildUpdateSalePath, promptEditSelectedSale } from './editSale';
+import { buildReadSalePath } from './readSale';
 import { loadSales } from './store';
 
 registerPrompt('date', require('inquirer-date-prompt'));
@@ -36,8 +37,14 @@ const successHandler = (answers: Answers) => {
         .catch(errorHandler);
       break;
     }
+    case 'read': {
+      prompt(buildReadSalePath(loadSales()))
+        .then(returnToMainMenu)
+        .catch(errorHandler);
+      break;
+    }
     case 'update': {
-      prompt(buildEditSalePath(loadSales()))
+      prompt(buildUpdateSalePath(loadSales()))
         .then(promptEditSelectedSale)
         .then(returnToMainMenu)
         .catch(errorHandler);
@@ -48,6 +55,7 @@ const successHandler = (answers: Answers) => {
         .then(removeSale)
         .then(returnToMainMenu)
         .catch(errorHandler);
+      break;
     }
     default:
       break;

@@ -9,10 +9,17 @@ export const toSale = (answers: Answers): Sale => ({
   itemValue: answers.itemValue,
 });
 
-export const toChoice = (sale: Sale, id: number): ChoiceOptions => ({
-  name: `${id + 1} | ${sale.sellerName} sold ${sale.itemName} for ${
-    sale.itemValue
-  } to ${sale.customerName} on ${sale.dateOfSale.toLocaleDateString(undefined, {
+export const toChoice = (
+  sale: Sale,
+  id: number,
+  arr: Array<Sale>
+): ChoiceOptions => ({
+  name: `${id + 1}${repeat(
+    ' ',
+    arr.length.toString().length - (id + 1).toString().length
+  )} | ${sale.sellerName} sold ${sale.itemName} for ${sale.itemValue} to ${
+    sale.customerName
+  } on ${sale.dateOfSale.toLocaleDateString(undefined, {
     weekday: 'long',
     year: 'numeric',
     month: 'long',
@@ -20,3 +27,6 @@ export const toChoice = (sale: Sale, id: number): ChoiceOptions => ({
   })}`,
   value: { id, sale },
 });
+
+const repeat = (word: string, iterations: number, separator: string = '') =>
+  Array.from({ length: iterations }, () => word).join(separator);
