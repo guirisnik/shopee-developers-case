@@ -1,8 +1,9 @@
-import { appendFileSync, readFileSync } from 'fs';
+import { appendFileSync, readFileSync, existsSync } from 'fs';
 import { Sale } from './dto/Sale.dto';
 import path from 'path';
 
 const MAIN_SALES_FILENAME = 'main-sales.csv';
+const filepath = (): string => path.join(__dirname, MAIN_SALES_FILENAME);
 
 const toCsvString = (sale: Sale): string =>
   `${sale.sellerName},${sale.customerName},${sale.dateOfSale},${sale.itemName},${sale.itemValue}\n`;
@@ -21,9 +22,9 @@ const toSale = (csvRow: string): Sale => {
 };
 
 export const save = (sale: Sale) =>
-  appendFileSync(path.join(__dirname, MAIN_SALES_FILENAME), toCsvString(sale));
+  appendFileSync(filepath(), toCsvString(sale));
 
 export const load = (): Array<Sale> =>
-  readFileSync(path.join(__dirname, MAIN_SALES_FILENAME), { encoding: 'utf-8' })
-    .split('/n')
-    .map(toSale);
+  existsSync(filepath())
+    ? readFileSync(filepath(), { encoding: 'utf-8' }).split('/n').map(toSale)
+    : [];
