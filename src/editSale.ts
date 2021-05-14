@@ -24,7 +24,11 @@ export const buildEditSalePath = (
     name: 'editSale',
     message: 'Which sale you wish to edit?',
     type: 'list',
-    choices: salesList.map(toChoice),
+    loop: false,
+    choices: [
+      { name: 'Return to main menu', value: null },
+      ...salesList.map(toChoice),
+    ],
   },
 ];
 
@@ -37,6 +41,7 @@ const replaceSale = (id: number, newSale: Sale): void => {
 };
 
 export const promptEditSelectedSale = (answers: Answers) =>
+  answers.editSale &&
   prompt(buildCreateSalePath(answers.editSale.sale))
     .then((editedAnswers) =>
       replaceSale(answers.editSale.id, toSale(editedAnswers))
