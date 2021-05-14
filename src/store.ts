@@ -1,4 +1,4 @@
-import { appendFileSync, readFileSync, existsSync } from 'fs';
+import { appendFileSync, writeFileSync, readFileSync, existsSync } from 'fs';
 import { Sale } from './dto/Sale.dto';
 import path from 'path';
 
@@ -24,7 +24,15 @@ const toSale = (csvRow: string): Sale => {
 export const save = (sale: Sale) =>
   appendFileSync(filepath(), toCsvString(sale));
 
-export const load = (): Array<Sale> =>
+export const replace = (salesList: Array<Sale>) =>
+  writeFileSync(filepath(), salesList.map(toCsvString).join(''));
+
+const notEmpty = (csvRow: string): boolean => csvRow != '';
+
+export const loadSales = (): Array<Sale> =>
   existsSync(filepath())
-    ? readFileSync(filepath(), { encoding: 'utf-8' }).split('/n').map(toSale)
+    ? readFileSync(filepath(), { encoding: 'utf-8' })
+        .split('\n')
+        .filter(notEmpty)
+        .map(toSale)
     : [];

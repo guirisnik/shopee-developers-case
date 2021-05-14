@@ -1,22 +1,29 @@
 import { QuestionCollection, Answers } from 'inquirer';
 import { Sale } from './dto/Sale.dto';
 import { save } from './store';
+import { toSale } from './utils';
 
-export const createSalePath: QuestionCollection = [
+export const buildCreateSalePath = (
+  defaultValues?: Sale | null
+): QuestionCollection => [
   {
     name: 'sellerName',
-    message: "Ok, let's register! What's the sellers name?",
+    default: defaultValues?.sellerName,
+    message: "What's the sellers name?",
     type: 'list',
     choices: [
       { name: 'A', value: 'A' },
       { name: 'B', value: 'B' },
       { name: 'C', value: 'C' },
       { name: 'D', value: 'D' },
+      { name: 'E', value: 'E' },
     ],
+    when: () => defaultValues != null,
   },
   {
     name: 'customerName',
-    message: "Great! What's the customer's name?",
+    default: defaultValues?.customerName,
+    message: "What's the customer's name?",
     type: 'input',
     validate: (input) =>
       input.trim().match(/^[a-zA-Z]+((\s[a-zA-Z ])?[a-zA-Z]*)*$/g)
@@ -25,20 +32,23 @@ export const createSalePath: QuestionCollection = [
   },
   {
     name: 'dateOfSale',
-    message: 'Awesome! What was the date of this sale?',
+    default: defaultValues?.dateOfSale,
+    message: 'What was the date of this sale?',
     type: 'date',
     format: { month: 'short', hour: undefined, minute: undefined },
   },
   {
     name: 'itemName',
-    message: 'I see. What was the name of the sold item?',
+    default: defaultValues?.itemName,
+    message: 'What was the name of the sold item?',
     type: 'input',
     validate: (input) =>
       input.length ? true : 'This field cannot be left blank.',
   },
   {
     name: 'itemValue',
-    message: 'Excellent! And how much was it?',
+    default: defaultValues?.itemValue,
+    message: 'How much did the item cost?',
     type: 'input',
     validate: (input) =>
       isNaN(input) || input <= 0
@@ -46,16 +56,6 @@ export const createSalePath: QuestionCollection = [
         : true,
   },
 ];
-
-const salesList: Array<Sale> = [];
-
-const toSale = (answers: Answers): Sale => ({
-  sellerName: answers.sellerName,
-  customerName: answers.customerName,
-  dateOfSale: answers.dateOfSale,
-  itemName: answers.itemName,
-  itemValue: answers.itemValue,
-});
 
 export function storeSale(answers: Answers): void {
   save(toSale(answers));
