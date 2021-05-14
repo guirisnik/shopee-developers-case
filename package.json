@@ -10,7 +10,7 @@
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf build",
-    "start": "clear && yarn clean && yarn build && node build/index.js"
+    "start": "clear && npm run clean && npm run build && node build/index.js"
   },
   "devDependencies": {
     "@types/inquirer": "^7.3.1"
