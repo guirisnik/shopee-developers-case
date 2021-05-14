@@ -2,13 +2,15 @@
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",
+    "lib": ["es6", "es2015", "dom"],
     "outDir": "build",
-    "sourceMap": true,
+    "rootDir": "src",
+    "types": ["node", "inquirer"],
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "build"]
 }
