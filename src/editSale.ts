@@ -4,7 +4,6 @@ import { Sale } from './dto/Sale.dto';
 import { loadSales, replace } from './store';
 import { toSale } from './utils';
 
-// TODO: Add an option to return to main menu and give up on edition
 const toChoice = (sale: Sale, id: number): ChoiceOptions => ({
   name: `${id + 1} | ${sale.sellerName} sold ${sale.itemName} for ${
     sale.itemValue
