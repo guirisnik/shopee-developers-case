@@ -1,5 +1,6 @@
 import { prompt, registerPrompt, QuestionCollection, Answers } from 'inquirer';
 import { buildCreateSalePath, storeSale } from './createSale';
+import { buildDeleteSalePath, removeSale } from './deletePath';
 import { buildEditSalePath, promptEditSelectedSale } from './editSale';
 import { loadSales } from './store';
 
@@ -21,21 +22,32 @@ const mainMenuPath: QuestionCollection = [
   },
 ];
 
+const errorHandler = (reason: any): void =>
+  console.error(
+    `An error occured (${reason}), please restart the application.`
+  );
+
 const successHandler = (answers: Answers) => {
   switch (answers.start) {
     case 'create': {
       prompt(buildCreateSalePath())
         .then(storeSale)
         .then(returnToMainMenu)
-        .catch(console.error);
+        .catch(errorHandler);
       break;
     }
     case 'update': {
       prompt(buildEditSalePath(loadSales()))
         .then(promptEditSelectedSale)
         .then(returnToMainMenu)
-        .catch(console.error);
+        .catch(errorHandler);
       break;
+    }
+    case 'delete': {
+      prompt(buildDeleteSalePath(loadSales()))
+        .then(removeSale)
+        .then(returnToMainMenu)
+        .catch(errorHandler);
     }
     default:
       break;

@@ -18,7 +18,6 @@ export const buildCreateSalePath = (
       { name: 'D', value: 'D' },
       { name: 'E', value: 'E' },
     ],
-    when: () => defaultValues != null,
   },
   {
     name: 'customerName',

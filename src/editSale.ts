@@ -1,20 +1,8 @@
-import { QuestionCollection, ChoiceOptions, Answers, prompt } from 'inquirer';
+import { QuestionCollection, Answers, prompt } from 'inquirer';
 import { buildCreateSalePath } from './createSale';
 import { Sale } from './dto/Sale.dto';
 import { loadSales, replace } from './store';
-import { toSale } from './utils';
-
-const toChoice = (sale: Sale, id: number): ChoiceOptions => ({
-  name: `${id + 1} | ${sale.sellerName} sold ${sale.itemName} for ${
-    sale.itemValue
-  } to ${sale.customerName} on ${sale.dateOfSale.toLocaleDateString(undefined, {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })}`,
-  value: { id, sale },
-});
+import { toSale, toChoice } from './utils';
 
 export const buildEditSalePath = (
   salesList: Array<Sale>
