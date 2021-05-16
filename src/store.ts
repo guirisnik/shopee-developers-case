@@ -1,5 +1,5 @@
 import { appendFileSync, writeFileSync, readFileSync, existsSync } from 'fs';
-import { Sale } from './dto/Sale.dto';
+import { Sale, Seller } from './dto/Sale.dto';
 import path from 'path';
 
 const MAIN_SALES_FILENAME = 'main-sales.csv';
@@ -13,7 +13,7 @@ const toSale = (csvRow: string): Sale => {
     csvRow.split(',');
 
   return {
-    sellerName,
+    sellerName: <Seller>sellerName,
     customerName,
     dateOfSale: new Date(dateOfSale),
     itemName,
